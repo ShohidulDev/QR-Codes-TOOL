@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Studio — by Shohidul Dev</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header>
+  <div class="logo"><img src="shohiduldev (10).png" alt="Shohidul Dev"></div>
+  <div class="badge">FREE TOOL</div>
+</header>
+
+<!-- ── Hero ── -->
+<div class="hero">
+  <div class="hero-tag">Shohidul Dev</div>
+  <h1>
+    Generate
+    <span class="line2">QR Codes.</span>
+  </h1>
+  <p class="hero-sub">// Instant. Custom. No login required.</p>
+</div>
+
+<!-- ── Main ── -->
+<div class="main">
+
+  <!-- A: Output Panel — full width, top -->
+  <div class="output-panel">
+    <div class="qr-display">
+      <div class="panel-label">A — Output</div>
+
+      <div class="qr-frame">
+        <div id="qr-output">
+          <div class="qr-placeholder">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+              <rect x="4"  y="4"  width="28" height="28" rx="2" stroke="#444" stroke-width="2"/>
+              <rect x="12" y="12" width="12" height="12" fill="#444"/>
+              <rect x="48" y="4"  width="28" height="28" rx="2" stroke="#444" stroke-width="2"/>
+              <rect x="56" y="12" width="12" height="12" fill="#444"/>
+              <rect x="4"  y="48" width="28" height="28" rx="2" stroke="#444" stroke-width="2"/>
+              <rect x="12" y="56" width="12" height="12" fill="#444"/>
+              <rect x="48" y="48" width="8"  height="8"  fill="#444"/>
+              <rect x="60" y="48" width="8"  height="8"  fill="#444"/>
+              <rect x="48" y="60" width="8"  height="8"  fill="#444"/>
+              <rect x="60" y="60" width="8"  height="8"  fill="#444"/>
+              <rect x="72" y="60" width="4"  height="4"  fill="#444"/>
+              <rect x="72" y="48" width="4"  height="4"  fill="#444"/>
+            </svg>
+            <p>Fill the form &amp;<br>hit Generate</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="qr-output-right">
+        <div class="qr-meta" id="qr-meta" style="display:none">
+          <div class="meta-row">
+            <span class="meta-key">Type</span>
+            <span class="meta-val" id="meta-type">—</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Size</span>
+            <span class="meta-val" id="meta-size">—</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">ECC</span>
+            <span class="meta-val" id="meta-ecc">—</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Chars</span>
+            <span class="meta-val" id="meta-chars">—</span>
+          </div>
+        </div>
+
+        <div class="dl-row" id="dl-btns" style="display:none">
+          <a class="btn-dl primary" id="dl-png" href="#" download="qr-shohiduldev.png">↓ Download PNG</a>
+          <a class="btn-dl" id="dl-svg" href="#" download="qr-shohiduldev.svg">SVG</a>
+          <button class="btn-dl" onclick="copyQR()">Copy</button>
+        </div>
+
+        <div class="wm">#shohiduldev · <span>Shohidul Dev</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Controls row: 01 Content + 02 Style -->
+  <div class="controls-row">
+
+    <!-- 01 — Content -->
+    <div class="panel">
+      <div class="panel-label">01 — Content</div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('url', this)">URL</button>
+        <button class="tab" onclick="switchTab('text', this)">Text</button>
+        <button class="tab" onclick="switchTab('email', this)">Email</button>
+        <button class="tab" onclick="switchTab('phone', this)">Phone</button>
+        <button class="tab" onclick="switchTab('wifi', this)">Wi-Fi</button>
+        <button class="tab" onclick="switchTab('vcard', this)">vCard</button>
+      </div>
+
+      <div class="tab-content active" id="tab-url">
+        <div class="field">
+          <label>Website URL</label>
+          <input type="url" id="input-url" placeholder="https://example.com" />
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-text">
+        <div class="field">
+          <label>Plain Text</label>
+          <textarea id="input-text" placeholder="Type your message here..."></textarea>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-email">
+        <div class="field">
+          <label>Email Address</label>
+          <input type="email" id="input-email-addr" placeholder="hello@example.com" />
+        </div>
+        <div class="field">
+          <label>Subject</label>
+          <input type="text" id="input-email-sub" placeholder="Subject line" />
+        </div>
+        <div class="field">
+          <label>Body</label>
+          <textarea id="input-email-body" placeholder="Message body..."></textarea>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-phone">
+        <div class="field">
+          <label>Phone Number</label>
+          <input type="tel" id="input-phone" placeholder="+8801XXXXXXXXX" />
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-wifi">
+        <div class="field">
+          <label>Network Name (SSID)</label>
+          <input type="text" id="input-wifi-ssid" placeholder="MyWiFiNetwork" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="text" id="input-wifi-pass" placeholder="password123" />
+        </div>
+        <div class="field">
+          <label>Security Type</label>
+          <select id="input-wifi-sec">
+            <option value="WPA">WPA/WPA2</option>
+            <option value="WEP">WEP</option>
+            <option value="nopass">None</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-vcard">
+        <div class="field">
+          <label>Full Name</label>
+          <input type="text" id="vc-name" placeholder="Shohidul Islam" />
+        </div>
+        <div class="field">
+          <label>Phone</label>
+          <input type="tel" id="vc-phone" placeholder="+8801XXXXXXXXX" />
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="vc-email" placeholder="email@example.com" />
+        </div>
+        <div class="field">
+          <label>Website</label>
+          <input type="url" id="vc-url" placeholder="https://yoursite.com" />
+        </div>
+        <div class="field">
+          <label>Company</label>
+          <input type="text" id="vc-org" placeholder="Your Company" />
+        </div>
+        <div class="field">
+          <label>Company ID</label>
+          <input type="text" id="vc-compid" placeholder="EMP-001 / ID-12345" />
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 — Style -->
+    <div class="panel">
+      <div class="panel-label">02 — Style</div>
+
+      <div class="field">
+        <label>Colors</label>
+        <div class="colors-row">
+          <div>
+            <label style="margin-bottom:8px;">Foreground</label>
+            <div class="color-picker-wrap">
+              <input type="color" id="color-fg" value="#000000" oninput="syncHex(this, 'hex-fg')" />
+              <input class="color-hex" id="hex-fg" value="#000000" maxlength="7" oninput="syncColor(this, 'color-fg')" />
+            </div>
+          </div>
+          <div>
+            <label style="margin-bottom:8px;">Background</label>
+            <div class="color-picker-wrap">
+              <input type="color" id="color-bg" value="#ffffff" oninput="syncHex(this, 'hex-bg')" />
+              <input class="color-hex" id="hex-bg" value="#ffffff" maxlength="7" oninput="syncColor(this, 'color-bg')" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Size — <span id="size-label">256px</span></label>
+        <div class="slider-wrap">
+          <input type="range" id="qr-size" min="128" max="512" step="16" value="256"
+                 oninput="document.getElementById('size-label').textContent = this.value + 'px'" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Error Correction</label>
+        <div class="ecc-row">
+          <button class="ecc-btn active" data-ecc="L" onclick="setEcc(this)">L — Low</button>
+          <button class="ecc-btn" data-ecc="M" onclick="setEcc(this)">M — Med</button>
+          <button class="ecc-btn" data-ecc="Q" onclick="setEcc(this)">Q — High</button>
+          <button class="ecc-btn" data-ecc="H" onclick="setEcc(this)">H — Max</button>
+        </div>
+      </div>
+
+      <button class="btn-generate" onclick="generateQR()">
+        <span>⬡ Generate QR Code</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">Built by <strong>Shohidul Dev</strong></div>
+  <div class="footer-hash">#shohiduldev</div>
+</footer>
+
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script src="script.js"></script>
+</body>
+</html>
